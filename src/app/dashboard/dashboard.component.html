@@ -4,11 +4,11 @@
 
     <div class="tasks-list">
       <div *ngIf="userPermissions.indexOf('VOTE_PROVIDERS') > -1">
-        <button class="btn btn-primary btn-lg" [routerLink]="['/vote-providers']">Vote Providers</button>
+        <button class="btn btn-primary btn-lg" [routerLink]="['/provider/list']" [queryParams]="{ action: 'vote' }">Vote Providers</button>
       </div>
 
       <div *ngIf="userPermissions.indexOf('CLASSIFY_PROVIDERS') > -1">
-        <button class="btn btn-primary btn-lg" [routerLink]="['/classify-providers']">Claissify Providers</button>
+        <button class="btn btn-primary btn-lg" [routerLink]="['/provider/list']" [queryParams]="{ action: 'classify' }">Claissify Providers</button>
       </div>
     </div>
 

@@ -1,0 +1,8 @@
+<div class="clearfix">
+  <h6 class="float-left">{{provider.name}}</h6>
+  <!-- <small>{{ provider.createdAt }}</small> -->
+  <div class="float-right">
+    <button class="btn btn-primary-outline btn-sm" [routerLink]="['/provider/vote', provider.key]">Vote</button>
+    <button class="btn btn-primary-outline btn-sm" [routerLink]="['/provider/classify', provider.key]">Classify</button>
+  </div>
+</div>

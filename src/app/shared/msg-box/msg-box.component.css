@@ -1,0 +1,22 @@
+.controls {
+  margin: 10px;
+  text-align: center;
+}
+
+.box-container {
+  text-align: center;
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.half-width {
+  width: 48%;
+}
+
+.full-width {
+  width: 96%;
+}
+
+.btn {
+  font-size: 14px;
+}

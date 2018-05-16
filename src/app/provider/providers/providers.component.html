@@ -1,0 +1,17 @@
+<div class="form-container">
+  <div>
+    <div>
+      <a [routerLink]="['/dashboard']" href="#" class="back-link">
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        Dashboard
+      </a>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend>Providers</legend>
+
+    <app-provider-list [providers]="providers"></app-provider-list>
+
+  </fieldset>
+</div>
