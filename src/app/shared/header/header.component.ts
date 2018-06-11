@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State, ActionTypes } from '../../app.store';
 import { Router } from '@angular/router';
+import { UserSignOutAction } from 'src/app/_state/actions/user.action';
+import { getDaoUser } from 'src/app/_state/reducers';
+import { getUser } from 'src/app/_state/reducers';
 
 @Component({
   selector: 'app-header',
@@ -10,22 +12,19 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isUserAuthenticated = false;
+  userType: string;
 
-  constructor(private store: Store<State>, private router: Router) { }
+  constructor(private store: Store<any>, private router: Router) { }
 
   ngOnInit() {
-    this.store.select('app').subscribe(appState => {
-      console.log('appState: ', appState);
-      this.isUserAuthenticated = appState.user.isAuthenticated;
+    this.store.select(getUser).subscribe(user => {
+      console.log('user: ', user);
+      this.isUserAuthenticated = user.isAuthenticated;
+      this.userType = user.daoAccessLevel > 1 ? 'ADMIN' : 'MOD';
     });
   }
 
   logout() {
-    this.store.dispatch({
-      type: ActionTypes.USER_SIGNEDOUT,
-      isVerified: false
-    });
-
-    this.router.navigate(['/signin']);
+    this.store.dispatch(new UserSignOutAction({ isAuthenticated: false }));
   }
 }

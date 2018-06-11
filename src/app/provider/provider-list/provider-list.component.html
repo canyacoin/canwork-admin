@@ -1,8 +1,8 @@
 <div>
   <app-list-toolbar [sortTypes]="sortTypes"></app-list-toolbar>
-  <app-provider-list-item class="card" *ngFor="let provider of providers | paginate: { itemsPerPage: 5, currentPage: p }"
+  <app-provider-list-item class="card" *ngFor="let provider of providers | async | paginate: { itemsPerPage: 5, currentPage: pageNum }"
     [provider]="provider"></app-provider-list-item>
-  <div class="text-center">
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <div class="text-center" *ngIf="providersSize > 5">
+    <pagination-controls (pageChange)="pageNum = $event"></pagination-controls>
   </div>
 </div>

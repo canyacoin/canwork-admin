@@ -1,0 +1,46 @@
+.item-row {
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
+
+.item-row .item-question {
+  font-weight: 400;
+  text-align: justify;
+}
+
+.item-row .item-answer {
+  font-weight: 300;
+  text-align: justify;
+}
+
+textarea {
+  border-color: #e9ecef;
+  width: 100%
+}
+
+.btn {
+  margin: 5px 0 0 5px;
+}
+
+.pioneer-title {
+  margin-bottom: 1em;
+}
+
+.pioneer-title .avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  background-color: #33ccff;
+  float: left;
+  margin: 1em 1em 0 0;
+}
+
+.pioneer-title .name {
+  float: left;
+  width: 200px;
+  line-height: 30px;
+  margin-top: 25px;
+  font-weight: 600;
+  border-bottom: 1px solid #e9ecef;
+}

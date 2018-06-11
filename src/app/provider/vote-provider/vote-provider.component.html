@@ -6,17 +6,136 @@
     </a>
   </div>
 
-  <fieldset>
+  <div *ngIf="!pioneer" class="text-center text-seondary">
+    <i class="fa fa-circle-o-notch fa-spin"></i> Loading ...</div>
 
-    <legend>{{ provider.name }}</legend>
+  <fieldset *ngIf="pioneer">
 
-    <div class="row">
+    <legend>Vote Pioneer</legend>
 
-      <div class="col-12">
-        <h4>Description</h4>
-        <p></p>
+    <div class="pioneer-title clearfix">
+      <div class="avatar"></div>
+      <div class="name">{{ pioneer.name }}</div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        Why do you want to be listed on CanYa?
+        <div class="item-answer">{{ pioneer.whyDoYouWantToJoinCanya }}</div>
       </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.whyDoYouWantToBeListedOnCanya" [max]="3" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
 
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        What will you bring to CanYa?
+        <div class="item-answer">{{ pioneer.whatWillYouBringToCanya }}</div>
+      </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.whatWillYouBringToCanya" [max]="3" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        Do you hold crypto coins?
+        <div class="item-answer">{{ pioneer.doYouHoldCrypto }}</div>
+      </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.doYouHoldCrypto" [max]="pioneer.doYouHoldCrypto == 'N/A' ? 0 : 1" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        Do you hold CanYa coin?
+        <div class="item-answer">{{ pioneer.doYouHoldCanyaCoin }}</div>
+      </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.doYouHoldCanyaCoin" [max]="pioneer.doYouHoldCanyaCoin == 'N/A' ? 0 : 1" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        What is your industry?
+        <div class="item-answer">
+          <div *ngFor="let industry of pioneer.industry">{{ industry }}</div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.whatIsYourIndustry" [max]="3" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        Email Address
+        <div class="item-answer" *ngIf="pioneer.email">
+          <a href="{{ pioneer.mailto }}">{{ pioneer.email }}</a>
+        </div>
+        <div class="item-answer" *ngIf="!pioneer.email">N/A</div>
+      </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.email" [max]="pioneer.email == 'N/A' ? 0 : 1" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        Telegram Handle
+        <div class="item-answer">{{ pioneer.telegram }}</div>
+      </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.telegram" [max]="pioneer.telegram == 'N/A' ? 0 : 1" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question ">
+        Website/Linkedin
+        <div class="item-answer" *ngIf="pioneer.portfolioLink !== 'N/A'">
+          <a href="{{ pioneer.portfolioLink }}">{{ pioneer.portfolioLink }}</a>
+        </div>
+        <div class="item-answer" *ngIf="pioneer.portfolioLink == 'N/A'">N/A</div>
+      </div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.portfolio" [max]="pioneer.portfolioLink == 'N/A' ? 0 : 3" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div class="row item-row">
+      <div class="col-sm-10 item-question" *ngIf="pioneer.resumeLink !== 'N/A'">
+        <a target="_blank" href="{{ pioneer.resumeLink }}">
+          <i class="fa fa-external-link"></i> View Resume
+        </a>
+      </div>
+      <div class="col-sm-10 item-question" *ngIf="pioneer.resumeLink == 'N/A'">Resume is not attached!</div>
+      <div class="col-sm-2">
+        <bar-rating [(rate)]="review.rating.resume" [max]="pioneer.resumeLink == 'N/A' ? 0 : 3" [theme]="'fontawesome-o'"></bar-rating>
+      </div>
+    </div>
+
+    <div>
+      <div class="item-question">In your own writing, should this user be a part of CanYa?
+        <small>(minimum 15 words)</small>
+      </div>
+      <div class="item-answer">
+        <textarea rows="3" [(ngModel)]="review.whyShouldThisUserBePartOfCanya"></textarea>
+      </div>
+    </div>
+
+    <div class="alert alert-warning clearfix" *ngIf="pioneer.rating.reviews.length">
+      This pioneer has already been rated before. How accurate was the rating?
+      <bar-rating [(rate)]="review.prevTaskRecordExecEvaluation" [max]="3" class="float-right" [theme]="'fontawesome-o'"></bar-rating>
+    </div>
+
+    <div class="text-right">
+      <button class="btn btn-primary" (click)="submit('exit')" *ngIf="!isLoading">Submit</button>
+      <button class="btn btn-primary" [disabled]="isLoading" *ngIf="isLoading"><i class="fa fa-circle-o-notch fa-spin"></i> Submitting...</button>
+      <!-- <button class="btn btn-success" (click)="submit('next')">Submit & Next ></button> -->
     </div>
 
   </fieldset>

@@ -10,13 +10,57 @@
 
     <legend>{{ provider.name }}</legend>
 
-    <div class="row">
+    <div class="item-row">
+      <div class="item-question">Why do you want to be listed on CanYa?</div>
+      <div class="item-answer">{{ provider.whyDoYouWantToJoinCanya }}</div>
+    </div>
 
-      <div class="col-12">
-        <h4>Description</h4>
-        <p></p>
+    <div class="item-row">
+      <div class="item-question">What will you bring to CanYa?</div>
+      <div class="item-answer">{{ provider.whatWillYouBringToCanya }}</div>
+    </div>
+
+    <div class="item-row">
+      <div class="item-question">Do you hold crypto coins?</div>
+      <div class="item-answer">{{ provider.doYouHoldCrypto }}</div>
+    </div>
+
+    <div class="item-row">
+      <div class="item-question">Do you hold CanYa coin?</div>
+      <div class="item-answer">{{ provider.doYouHoldCanyaCoin }}</div>
+    </div>
+
+    <div class="item-row">
+      <div class="item-question">What is your industry?</div>
+      <div class="item-answer">
+        <div *ngFor="let cat of Object.values(provider.industry)">{{ cat }}</div>
+        <div *ngIf="provider.otherIndustry">{{ provider.otherIndustry }}</div>
       </div>
+    </div>
 
+    <div class="item-row">
+      <div class="item-question">Why do you want to be listed on CanYa?</div>
+      <div class="item-answer">{{ provider.whyDoYouWantToJoinCanya }}</div>
+    </div>
+
+    <div class="item-row">
+      <div class="item-question">Email Address</div>
+      <div class="item-answer">{{ provider.email }}</div>
+    </div>
+
+    <div class="item-row">
+      <div class="item-question">Telegram Handle</div>
+      <div class="item-answer">{{ provider.telegram }}</div>
+    </div>
+
+    <div class="item-row">
+      <div class="item-question">Website/Linkedin</div>
+      <div class="item-answer">{{ provider.portfolioLink }}</div>
+    </div>
+
+    <div class="item-row">
+      <div class="item-question">Resume</div>
+      <div class="item-answer">{{ provider.resumeLink }}</div>
     </div>
 
   </fieldset>

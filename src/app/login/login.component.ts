@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { State, ActionTypes, User } from '../app.store';
+import { DaoService } from 'src/app/services/dao.service';
+import { DAOAuthenticateAction } from 'src/app/_state/actions/dao.action';
 
 @Component({
   selector: 'app-login',
@@ -9,20 +10,18 @@ import { State, ActionTypes, User } from '../app.store';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  loginType = 'mod';
 
-  constructor(private router: Router, private store: Store<State>) { }
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store<any>,
+    private daoService: DaoService
+  ) { }
 
-  ngOnInit() { }
-
-  login() {
-    this.store.dispatch({
-      type: ActionTypes.USER_AUTHENTICATED,
-      payload: {
-        isAuthenticated: true,
-        permissions: ['VOTE_PROVIDERS', 'CLASSIFY_PROVIDERS']
-      }
-    });
-
-    this.router.navigate(['/dashboard']);
+  ngOnInit() {
+    this.route.queryParams
+      .subscribe(params => {
+        this.store.dispatch(new DAOAuthenticateAction({ daoAuthToken: params.daoAuthToken }));
+      });
   }
 }

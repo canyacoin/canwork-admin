@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
-import { User } from '../app.store';
+import { IDAOUser } from 'src/app/_state/reducers/dao.reducer';
 
-const USER = 'CANYA_CORE_USER';
+const USER = 'user';
 
 @Injectable()
 export class UserService {
 
   constructor() { }
+
+  getId() {
+    return this.getUser().id;
+  }
+
+  setId(id) {
+    this.update({ id });
+  }
 
   isAuthenticated(): boolean {
     return this.getUserFromCache().isAuthenticated;
@@ -24,13 +32,17 @@ export class UserService {
     this.update({ isClient });
   }
 
-  update(props): User {
+  set(props) {
+    this.update(props);
+  }
+
+  update(props): IDAOUser {
     const user = Object.assign(this.getUserFromCache(), props);
     this.setUserToCache(user);
     return user;
   }
 
-  getUser(): User {
+  getUser(): IDAOUser {
     return this.getUserFromCache();
   }
 
@@ -39,19 +51,19 @@ export class UserService {
   }
 
   getPermissions() {
-    return this.getUser().permissions || [];
+    return this.getUser() || [];
   }
 
   setPermissions(permissions) {
     this.update({ permissions });
   }
 
-  private getUserFromCache(): User {
+  private getUserFromCache(): IDAOUser {
     const userStr = sessionStorage.getItem(USER);
     return userStr ? JSON.parse(userStr) : {};
   }
 
-  private setUserToCache(user): User {
+  private setUserToCache(user): IDAOUser {
     sessionStorage.setItem(USER, JSON.stringify(user));
     return user;
   }

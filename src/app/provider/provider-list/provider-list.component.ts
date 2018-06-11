@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-provider-list',
@@ -6,8 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./provider-list.component.css']
 })
 export class ProviderListComponent implements OnInit {
-  @Input() providers = [];
-  p = 1;
+  @Input() providers: Observable<any>[];
+  @Input() providersSize;
+
+  pageNum = 1;
 
   sortTypes = [
     {
@@ -34,7 +37,6 @@ export class ProviderListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   constructor(private user: UserService) { }
 
   ngOnInit() {
-    this.userPermissions = this.user.getPermissions();
+    this.userPermissions = ['VOTE_PROVIDERS', 'CLASSIFY_PROVIDERS']; // this.user.getPermissions();
   }
 
 }

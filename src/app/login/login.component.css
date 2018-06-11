@@ -1,5 +1,9 @@
-.form-container {  
-  width: 22em;  
+.form-container {
+  width: 22em;
   margin: 5em auto;
-  text-align: center;  
+  text-align: center;
+}
+
+input [type=radio] {
+  margin: 0 5px;
 }
