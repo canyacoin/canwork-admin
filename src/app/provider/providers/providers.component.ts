@@ -16,10 +16,11 @@ import { UserService } from 'src/app/services/user.service';
 export class ProvidersComponent implements OnInit {
   providers: any;
   providersSize: number;
+  user: any;
   userDaoAccessLevel = -1;
 
-  constructor(private pioneer: PioneerService, private user: UserService) {
-    this.userDaoAccessLevel = user.getUser().daoAccessLevel;
+  constructor(private pioneer: PioneerService, private userService: UserService) {
+    this.user = userService.getUser();
   }
 
   ngOnInit() {
@@ -32,7 +33,17 @@ export class ProvidersComponent implements OnInit {
       });
   }
 
-  filterByDaoAccessLevel(p) {
-    return !p.rating.task || this.userDaoAccessLevel >= p.rating.task.requiredAccessLevel;
+  filterByDaoAccessLevel(pioneerRecord) {
+    return (!pioneerRecord.rating.task || this.isDaoUserHasEnoughPriviledges(pioneerRecord))
+      && !this.isRecordExecutedBySameUser(pioneerRecord);
   }
+
+  isDaoUserHasEnoughPriviledges(pioneerRecord) {
+    return pioneerRecord.rating.task.requiredAccessLevel[this.user.daoAccessLevel];
+  }
+
+  isRecordExecutedBySameUser(pioneerRecord) {
+    return pioneerRecord.rating.reviews.find(r => r.createdBy === this.user.id);
+  }
+
 }

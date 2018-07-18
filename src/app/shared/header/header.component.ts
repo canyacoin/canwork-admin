@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     this.store.select(getUser).subscribe(user => {
       console.log('user: ', user);
       this.isUserAuthenticated = user.isAuthenticated;
-      this.userType = user.daoAccessLevel > 1 ? 'ADMIN' : 'MOD';
+      this.userType = user.daoAccessLevel;
     });
   }
 

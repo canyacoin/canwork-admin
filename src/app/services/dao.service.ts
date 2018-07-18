@@ -30,8 +30,9 @@ export class DaoService {
       });
   }
 
-  execTask(daoUserId, taskName, prevTaskRecordExecEvaluation) {
-    return this.http.post(`${baseUrl}/task/${taskName}/exec`, {
+  execTask(taskKey, taskRecordRef, daoUserId, prevTaskRecordExecEvaluation) {
+    return this.http.post(`${baseUrl}/task/${taskKey}/exec`, {
+      taskRecordRef,
       daoUserId,
       prevTaskRecordExecEvaluation
     }, httpOptions);

@@ -51,6 +51,15 @@ export class VoteProviderComponent implements OnInit {
           }
 
           this.pioneer = _pioneers[0];
+
+          if (this.pioneer.doYouHoldCrypto === 'Yes') {
+            this.review.rating.doYouHoldCrypto = 1;
+          }
+
+          if (this.pioneer.doYouHoldCanyaCoin === 'Yes') {
+            this.review.rating.doYouHoldCanyaCoin = 1;
+          }
+
           if (this.pioneer.rating.reviews.length) {
             this.review = { ...this.pioneer.rating.reviews[0] };
           }
@@ -66,7 +75,7 @@ export class VoteProviderComponent implements OnInit {
 
     this.isLoading = true;
     const user = this.user.getUser();
-    this.daoService.execTask(user.id, TASK_VOTE_PROVIDER, this.review.prevTaskRecordExecEvaluation).subscribe(task => {
+    this.daoService.execTask(TASK_VOTE_PROVIDER, this.pioneer.key, user.id, this.review.prevTaskRecordExecEvaluation).subscribe(task => {
       this.review.createdBy = user.id;
       this.review.daoAccessLevel = user.daoAccessLevel || -1;
       this.pioneerService.updateRating({

@@ -1,15 +1,17 @@
 <div class="form-container">
-  <img class="logo-default mb-50" src="/assets/img/logo.svg" width="auto" height="36px" alt="logo">
+  <a [routerLink]="['/home']">
+    <img class="logo-default mb-50" src="/assets/img/logo.svg" width="auto" height="36px" alt="logo">
+  </a>
   <fieldset>
     <legend>Signin</legend>
-    <!-- <a class="btn btn-primary btn-lg text-white" (click)="login()" >Login with MetaMask</a> -->
-    <button class="btn btn-primary btn-lg text-white" disabled>
+
+    <a class="btn btn-primary btn-lg text-white" (click)="login()" *ngIf="!isDaoLogin">Sign-in with MetaMask</a>
+
+    <button class="btn btn-primary btn-lg text-white" disabled *ngIf="isDaoLogin">
       <i class="fa fa-circle-o-notch fa-spin"></i> Authenticating DAO User ...
     </button>
-    <!-- <div>
-      <input type="radio" name="loginType" value="mod" [(ngModel)]="loginType"> &nbsp;Mod &nbsp;
-      <input type="radio" name="loginType" value="admin" [(ngModel)]="loginType"> &nbsp;Admin
-    </div> -->
+
     <hr>
+
   </fieldset>
 </div>

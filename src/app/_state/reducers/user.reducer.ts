@@ -6,7 +6,7 @@ import * as DaoActions from '../actions/dao.action';
 export interface IUser {
   id: string;
   isAuthenticated: boolean;
-  daoAccessLevel: number;
+  daoAccessLevel: string;
 }
 
 export interface State {
@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: UserActions.Actions | DaoA
     }
 
     case UserActions.USER_SIGNOUT: {
-      const user = { id: '', isAuthenticated: false, daoAccessLevel: 0 };
+      const user = { id: null, isAuthenticated: false, daoAccessLevel: null };
       const isLoading = false;
       return { ...state, user, isLoading };
     }

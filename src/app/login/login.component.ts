@@ -10,7 +10,7 @@ import { DAOAuthenticateAction } from 'src/app/_state/actions/dao.action';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginType = 'mod';
+  isDaoLogin = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,7 +21,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        this.store.dispatch(new DAOAuthenticateAction({ daoAuthToken: params.daoAuthToken }));
+        if (params.daoAuthToken) {
+          this.isDaoLogin = true;
+          this.store.dispatch(new DAOAuthenticateAction({ daoAuthToken: params.daoAuthToken }));
+        }
       });
   }
 }
