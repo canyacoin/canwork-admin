@@ -1,0 +1,31 @@
+<div class="form-container">
+  <fieldset>
+    <legend>Manage Owners</legend>
+
+    <div class="form-group">
+      <input type="text" class="form-control" [(ngModel)]="address" placeholder="0x...">
+    </div>
+    <button class="btn btn-primary btn-xl" (click)="add()">Add</button>
+
+    <hr>
+
+    <div class="text-right clearfix" *ngIf="owners.length">
+      <h4 class="pull-left">Owners</h4>
+      <a href="#" (click)="listOwners()" class="pull-right">
+        <i class="fa fa-refresh fa-lg"></i>
+      </a>
+    </div>
+
+    <div class="text-left">
+      <div class="text-center" *ngIf="isLoading">
+        <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
+      </div>
+
+      <div *ngFor="let owner of owners" class="clearfix mb-10">
+        <h6 class="pull-left">{{ owner[0] }}</h6>
+        <button class="btn btn-danger pull-right" (click)="remove(owner[0])">Remove</button>
+      </div>
+    </div>
+
+  </fieldset>
+</div>

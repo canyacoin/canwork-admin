@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { AlertService } from './services/alert.service';
-import 'rxjs/add/operator/delay';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ export class AppComponent implements AfterViewInit {
   constructor(private alert: AlertService) { }
 
   ngAfterViewInit() {
-    this.alert.get().delay(500).subscribe(alert => {
+    this.alert.get().pipe(delay(500)).subscribe(alert => {
 
       if (!alert.type) {
         this.alerts = this.alerts.filter(a => a.id !== alert.id);

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserSignOutAction } from 'src/app/_state/actions/user.action';
 import { getDaoUser } from 'src/app/_state/reducers';
 import { getUser } from 'src/app/_state/reducers';
+import { UserRole } from 'src/app/_state/reducers/user.reducer';
 
 @Component({
   selector: 'app-header',
@@ -13,14 +14,16 @@ import { getUser } from 'src/app/_state/reducers';
 export class HeaderComponent implements OnInit {
   isUserAuthenticated = false;
   userType: string;
+  isDaoUser = false;
 
   constructor(private store: Store<any>, private router: Router) { }
 
   ngOnInit() {
     this.store.select(getUser).subscribe(user => {
       console.log('user: ', user);
-      this.isUserAuthenticated = user.isAuthenticated;
       this.userType = user.daoAccessLevel;
+      this.isUserAuthenticated = user.isAuthenticated;
+      this.isDaoUser = user.role === UserRole.DaoUser;
     });
   }
 

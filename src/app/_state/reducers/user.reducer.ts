@@ -3,10 +3,18 @@ import { Storage } from '../../utils/storage';
 import * as UserActions from '../actions/user.action';
 import * as DaoActions from '../actions/dao.action';
 
+export enum UserRole {
+  SysAdmin = 'sysAdmin',
+  SysOwner = 'sysOwner',
+  DaoUser = 'daoUser',
+  None = 'none'
+}
+
 export interface IUser {
   id: string;
   isAuthenticated: boolean;
   daoAccessLevel: string;
+  role: UserRole;
 }
 
 export interface State {
@@ -30,8 +38,14 @@ export function reducer(state = initialState, action: UserActions.Actions | DaoA
       return { ...state, user, isLoading };
     }
 
+    case UserActions.USER_AUTHENTICATED: {
+      const user = action.payload;
+      const isLoading = false;
+      return { ...state, user, isLoading };
+    }
+
     case UserActions.USER_SIGNOUT: {
-      const user = { id: null, isAuthenticated: false, daoAccessLevel: null };
+      const user = { id: null, isAuthenticated: false, daoAccessLevel: null, role: UserRole.None };
       const isLoading = false;
       return { ...state, user, isLoading };
     }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, tap, mergeMap } from 'rxjs/operators';
-import { Observable, ObservableInput } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { catchError, tap, mergeMap, switchMap, map } from 'rxjs/operators';
+import { Observable, ObservableInput, of, pipe } from 'rxjs';
+// import 'rxjs/add/observable/of';
+// import 'rxjs/add/operator/switchMap';
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/catch';
 
 import { DaoService } from 'src/app/services/dao.service';
 import { DAO_AUTHENTICATE, DAOAuthenticatedAction, DAO_AUTHENTICATED } from 'src/app/_state/actions/dao.action';
@@ -24,23 +24,25 @@ export class DaoEffects {
   ) { }
 
   @Effect()
-  daoAuthenticate$: Observable<Action> = this.actions$
-    .ofType(DAO_AUTHENTICATE)
-    .switchMap((action) => {
+  daoAuthenticate$: Observable<Action> = this.actions$.pipe(
+    ofType(DAO_AUTHENTICATE),
+    mergeMap(action => {
       return this.daoService.auth(action['payload'].daoAuthToken)
-        .map(daoUser => {
-          return new DAOAuthenticatedAction({ daoUser });
-        })
-        .catch(err => Observable.of(new OperationFailedAction({ error: err.error, title: 'Failed SignUp' })));
-    });
+        .pipe(
+        map(daoUser => new DAOAuthenticatedAction({ daoUser })),
+        catchError(err => of(new OperationFailedAction({ error: err.error, title: 'Failed SignUp' })))
+        );
+    })
+  );
 
   @Effect()
-  daoAuthenticated$: Observable<Action> = this.actions$
-    .ofType(DAO_AUTHENTICATED)
-    .map((action: any) => {
+  daoAuthenticated$: Observable<Action> = this.actions$.pipe(
+    ofType(DAO_AUTHENTICATED),
+    map(action => {
       console.log('action: ', action);
-      this.userService.update(action.payload.daoUser);
+      this.userService.update(action['payload'].daoUser);
       this.alert.success('DAO user has been authenticated successfully', 'Successful Authentication');
       return new NavigateAction({ url: ['/dashboard'] });
-    });
+    })
+  );
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, ObservableInput } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators/tap';
+import { Observable, ObservableInput } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { isJSON } from '../../utils';
-import { OPERATION_FAILED, NAVIGATE } from '../actions/common.action';
+import { OPERATION_FAILED, NAVIGATE, OPERATION_SUCCEDED } from '../actions/common.action';
 import { AlertService } from '../../services/alert.service';
 
 @Injectable()
@@ -48,9 +48,20 @@ export class CommonEffects {
     }));
 
   @Effect({ dispatch: false })
+  operationSucceded$: Observable<Action> = this.actions$.pipe(
+    ofType(OPERATION_SUCCEDED),
+    tap((action: any) => {
+      this.alert.success(action['payload'].message, action['payload'].title || 'Operation succeded');
+      return;
+    }));
+
+  @Effect({ dispatch: false })
   navigate$: Observable<Action> = this.actions$.pipe(
     ofType(NAVIGATE),
-    tap(action => this.router.navigate(action['payload'].url))
+    tap(action => {
+      this.router.navigate(action['payload'].url);
+      return;
+    })
   );
 
 }

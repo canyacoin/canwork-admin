@@ -14,7 +14,13 @@ export const environment = {
     messagingSenderId: '492032276666'
   },
   daoApiUrl: 'http://localhost:5000/candao-af747/us-central1/api',
-  daoApiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFtOW9ia0JrWVc4dVkyOXQiLCJ0aW1lc3RhbXAiOjE1MzExMTcyMDUyMDB9.gfoXrLf-8MvVsDp4V3RXhG4fg3PcSIWonkswbvb1epc'
+  daoApiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFtOW9ia0JrWVc'
+    + '4dVkyOXQiLCJ0aW1lc3RhbXAiOjE1MzExMTcyMDUyMDB9.gfoXrLf-8MvVsDp4V3RXhG4fg3PcSIWonkswbvb1epc',
+  contracts: {
+    useTestNet: true,
+    canworkJob: '0x5e6b0beb2bb566a2e7cdaf50c6706af56ae59e16',
+    canyaCoin: '0x3986826916e72cf07c278300b9525dc32a29f259'
+  }
 };
 
 /*

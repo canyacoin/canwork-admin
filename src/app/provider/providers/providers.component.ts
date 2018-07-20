@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PioneerService } from 'src/app/provider/services/pioneer.service';
-import { Observable } from 'rxjs/Observable';
-import { filter } from 'rxjs/operators/filter';
-import { pipe } from 'rxjs/util/pipe';
-import { take } from 'rxjs/operators/take';
-import { mergeMap } from 'rxjs/operators/mergeMap';
-import { switchMap } from 'rxjs/operators/switchMap';
+import { Observable, of } from 'rxjs';
+import { filter, take, mergeMap, switchMap } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -29,7 +25,7 @@ export class ProvidersComponent implements OnInit {
       .subscribe(_pioneers => {
         const filteredPioneers = _pioneers.filter(this.filterByDaoAccessLevel.bind(this));
         this.providersSize = filteredPioneers.length;
-        this.providers = Observable.of(filteredPioneers);
+        this.providers = of(filteredPioneers);
       });
   }
 

@@ -1,0 +1,11 @@
+.form-container {
+  max-width: 600px;
+  margin: 5em auto;
+  text-align: center;
+}
+
+.btn {
+  width: 300px;
+  padding: 5px auto;
+  margin: 5px;
+}

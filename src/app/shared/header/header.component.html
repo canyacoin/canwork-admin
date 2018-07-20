@@ -14,9 +14,9 @@
         <li class="nav-item dropdown" *ngIf="isUserAuthenticated">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ userType }} Account</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" [routerLink]="['/dashboard']" href="#">Dashboard</a>
-            <a class="dropdown-item" [routerLink]="['/profile']" href="#">Profile</a>
-            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" [routerLink]="['/home']" href="#">Dashboard</a>
+            <a *ngIf="isUserAuthenticated && isDaoUser" class="dropdown-item" [routerLink]="['/profile']" href="#">Profile</a>
+            <div *ngIf="isUserAuthenticated && isDaoUser" class="dropdown-divider"></div>
             <button class="dropdown-item cursor-pointer" (click)="logout()">Logout</button>
           </div>
         </li>

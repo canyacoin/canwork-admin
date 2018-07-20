@@ -6,6 +6,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './routing/app.routing.module';
 import { ProviderModule } from './provider/provider.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CanpayModule } from '@canyaio/canpay-lib';
 
 // ngrx functions
 import { reducers } from './_state/reducers';
@@ -21,6 +22,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { UserService } from 'src/app/services/user.service';
 import { DaoService } from 'src/app/services/dao.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { environment } from 'src/environments/environment';
+import { CanWorkJobEthService } from 'src/app/services/eth/canwork-job-eth.service';
+import { DashboardOwnerComponent } from './dashboard-owner/dashboard-owner.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
+import { ManageOwnersComponent } from './manage-owners/manage-owners.component';
+import { TransferComponent } from './transfer/transfer.component';
 
 
 @NgModule({
@@ -35,18 +43,30 @@ import { AlertService } from 'src/app/services/alert.service';
     SharedModule,
     ProviderModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CanpayModule.forRoot({
+      contracts: {
+        useTestNet: environment.contracts.useTestNet,
+        canyaCoinAddress: environment.contracts.canyaCoin
+      }
+    })
   ],
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    DashboardOwnerComponent,
+    DashboardAdminComponent,
+    ManageAdminsComponent,
+    ManageOwnersComponent,
+    TransferComponent
   ],
   providers: [
     UserService,
     DaoService,
-    AlertService
+    AlertService,
+    CanWorkJobEthService
   ],
   bootstrap: [AppComponent]
 })

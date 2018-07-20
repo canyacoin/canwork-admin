@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sha256 } from 'sha256';
-import { Observable } from 'rxjs/Observable';
-import { delay } from 'rxjs/operators/delay';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user.service';
 
@@ -24,10 +24,10 @@ export class DaoService {
 
   auth(daoAuthToken) {
     return this.http.get(`${baseUrl}/user/verify/${daoAuthToken}`, httpOptions)
-      .map((user: any) => {
+      .pipe(map((user: any) => {
         user.isAuthenticated = true;
         return user;
-      });
+      }));
   }
 
   execTask(taskKey, taskRecordRef, daoUserId, prevTaskRecordExecEvaluation) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from '@firebase/util/dist/src/subscribe';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 const sorted = alerts => alerts.sort((a: any, b: any) => b.id > a.id ? 1 : -1);
 

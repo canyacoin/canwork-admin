@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IDAOUser } from 'src/app/_state/reducers/dao.reducer';
+import { IUser } from 'src/app/_state/reducers/user.reducer';
 
 const USER = 'user';
 
@@ -36,13 +37,13 @@ export class UserService {
     this.update(props);
   }
 
-  update(props): IDAOUser {
+  update(props): IUser {
     const user = Object.assign(this.getUserFromCache(), props);
     this.setUserToCache(user);
     return user;
   }
 
-  getUser(): IDAOUser {
+  getUser(): IUser {
     return this.getUserFromCache();
   }
 
@@ -58,12 +59,12 @@ export class UserService {
     this.update({ permissions });
   }
 
-  private getUserFromCache(): IDAOUser {
+  private getUserFromCache(): IUser {
     const userStr = sessionStorage.getItem(USER);
     return userStr ? JSON.parse(userStr) : {};
   }
 
-  private setUserToCache(user): IDAOUser {
+  private setUserToCache(user): IUser {
     sessionStorage.setItem(USER, JSON.stringify(user));
     return user;
   }
