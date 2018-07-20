@@ -19,7 +19,7 @@
     </div>
 
     <div class="text-center">
-      <button class="btn btn-primary btn-xl" (click)="listSigners()">Check</button>
+      <button class="btn btn-primary btn-xl" (click)="listSigners()" [disabled]="isLoadingSigners"><i *ngIf="isLoadingSigners" class="fa fa-circle-o-notch fa-spin fa-fw"></i> Signers</button>
       <button class="btn btn-primary btn-xl" (click)="add()">Add</button>
     </div>
 
@@ -34,15 +34,13 @@
 
     <div class="text-center" *ngIf="owners.length === 0 && !isLoading">Looks like nothing is there!</div>
 
-    <div class="text-left">
-      <div class="text-center" *ngIf="isLoading">
-        <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
-      </div>
+    <div class="text-center" *ngIf="isLoading">
+      <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
+    </div>
 
-      <div *ngFor="let owner of owners" class="clearfix mb-10">
-        <h6 class="pull-left">{{ owner[0] }}</h6>
-        <button class="btn btn-danger pull-right" (click)="remove(owner[0])">Remove</button>
-      </div>
+    <div *ngFor="let owner of owners" class="clearfix mb-10">
+      <h6 class="pull-left">{{ owner[0] }}</h6>
+      <button class="btn btn-danger pull-right" (click)="remove(owner[0])">Remove</button>
     </div>
 
   </fieldset>

@@ -22,7 +22,7 @@ export class ManageTransferComponent implements OnInit {
     this.isLoading = true;
     this.canworkJobEthService.getSigners(MultiSigOperations.emergencyTransfer, address)
       .then(_signers => this.signers = _signers)
-      .then(() => this.isLoading = false);
+      .finally(() => this.isLoading = false);
 
     return false;
   }

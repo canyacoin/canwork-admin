@@ -9,7 +9,7 @@ import { CanWorkJobEthService, MultiSigOperations } from 'src/app/services/eth/c
   styleUrls: ['./manage-owners.component.css']
 })
 export class ManageOwnersComponent implements OnInit {
-
+  isLoadingSigners = false;
   isLoading = false;
   address: string;
   owners = [];
@@ -54,10 +54,10 @@ export class ManageOwnersComponent implements OnInit {
 
   listSigners(address = this.address) {
     this.signers = [];
-    this.isLoading = true;
+    this.isLoadingSigners = true;
     this.canworkJobEthService.getSigners(MultiSigOperations.addOwner, address)
       .then(_signers => this.signers = _signers)
-      .then(() => this.isLoading = false);
+      .finally(() => this.isLoadingSigners = false);
 
     return false;
   }

@@ -12,7 +12,7 @@
     </div>
 
     <div class="text-center">
-      <button class="btn btn-primary btn-xl" (click)="listSigners()">Check</button>
+      <button class="btn btn-primary btn-xl" (click)="listSigners()" [disabled]="isLoading"><i *ngIf="isLoading" class="fa fa-circle-o-notch fa-spin fa-fw"></i> Check</button>
       <button class="btn btn-danger btn-xl" (click)="transfer()">Transfer</button>
     </div>
 
