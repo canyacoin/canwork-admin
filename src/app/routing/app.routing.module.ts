@@ -8,7 +8,7 @@ import { DashboardOwnerComponent } from 'src/app/dashboard-owner/dashboard-owner
 import { DashboardAdminComponent } from 'src/app/dashboard-admin/dashboard-admin.component';
 import { ManageOwnersComponent } from 'src/app/manage-owners/manage-owners.component';
 import { ManageAdminsComponent } from 'src/app/manage-admins/manage-admins.component';
-import { TransferComponent } from 'src/app/transfer/transfer.component';
+import { ManageTransferComponent } from 'src/app/manage-transfer/transfer.component';
 
 const routes: Routes = [
   {
@@ -57,7 +57,7 @@ const routes: Routes = [
   },
   {
     path: 'transfer',
-    component: TransferComponent,
+    component: ManageTransferComponent,
     // canActivate: [AuthGuard]
   },
   {

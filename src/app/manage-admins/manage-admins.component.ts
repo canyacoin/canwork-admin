@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OperationSuccededAction } from 'src/app/_state/actions/common.action';
-import { CanWorkJobEthService } from 'src/app/services/eth/canwork-job-eth.service';
+import { CanWorkJobEthService, MultiSigOperations } from 'src/app/services/eth/canwork-job-eth.service';
 
 @Component({
   selector: 'app-manage-admins',
@@ -13,6 +13,7 @@ export class ManageAdminsComponent implements OnInit {
   isLoading = false;
   address: string;
   admins = [];
+  signers = [];
 
   constructor(private canworkJobEthService: CanWorkJobEthService, private store: Store<any>) { }
 

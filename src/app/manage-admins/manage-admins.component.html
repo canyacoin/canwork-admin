@@ -1,11 +1,19 @@
 <div class="form-container">
+  <a [routerLink]="['/home']" href="#" class="back-link">
+    <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+    Dashboard
+  </a>
+
   <fieldset>
     <legend>Manage Admins</legend>
 
     <div class="form-group">
       <input type="text" class="form-control" [(ngModel)]="address" placeholder="0x...">
     </div>
-    <button class="btn btn-primary btn-xl" (click)="add()">Add</button>
+
+    <div class="text-center">
+      <button class="btn btn-primary btn-xl" (click)="add()">Add</button>
+    </div>
 
     <hr>
 
@@ -14,10 +22,14 @@
         <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
       </div>
 
-      <div class="text-right clearfix" *ngIf="admins.length">
+      <div class="text-right clearfix">
         <h4 class="pull-left">Admins</h4>
-        <a href="#" (click)="listAdmins()" class="pull-right"><i class="fa fa-refresh fa-lg"></i></a>
+        <a href="#" (click)="listAdmins()" class="pull-right">
+          <i class="fa fa-refresh fa-lg"></i>
+        </a>
       </div>
+
+      <div class="text-center" *ngIf="admins.length === 0 && !isLoading">Looks like nothing is there!</div>
 
       <div *ngFor="let admin of admins" class="clearfix mb-10">
         <h6 class="pull-left">{{ admin[0] }}</h6>

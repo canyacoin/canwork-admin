@@ -115,7 +115,7 @@ export class CanWorkJobEthService extends EthService {
         const signers = [];
 
         for (let i = 0; i < count; i++) {
-          signers.push(this.canWorkJobContract.methods.getOperationSigner(this.web3js.utils.asciiToHex(operation), address).call());
+          signers.push(this.canWorkJobContract.methods.getOperationSigner(this.web3js.utils.asciiToHex(operation), address, i).call());
         }
 
         return Promise.all(signers)

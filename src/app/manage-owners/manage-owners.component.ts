@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OperationSuccededAction } from 'src/app/_state/actions/common.action';
-import { CanWorkJobEthService } from 'src/app/services/eth/canwork-job-eth.service';
+import { CanWorkJobEthService, MultiSigOperations } from 'src/app/services/eth/canwork-job-eth.service';
 
 @Component({
   selector: 'app-manage-owners',
@@ -13,6 +13,7 @@ export class ManageOwnersComponent implements OnInit {
   isLoading = false;
   address: string;
   owners = [];
+  signers = [];
 
   constructor(private canworkJobEthService: CanWorkJobEthService, private store: Store<any>) { }
 
@@ -30,11 +31,12 @@ export class ManageOwnersComponent implements OnInit {
   }
 
   add() {
+    this.signers = [];
     this.canworkJobEthService.addOwner(this.address)
       .then((tx: any) => {
         if (tx && tx.status) {
           this.address = '';
-          this.store.dispatch(new OperationSuccededAction({ message: 'Owner has been added successfully!' }));
+          this.store.dispatch(new OperationSuccededAction({ message: 'Owner signature has been added successfully!' }));
           setTimeout(() => this.listOwners(), 2000);
         }
       });
@@ -44,10 +46,20 @@ export class ManageOwnersComponent implements OnInit {
     this.canworkJobEthService.removeOwner(address)
       .then((tx: any) => {
         if (tx && tx.status) {
-          this.store.dispatch(new OperationSuccededAction({ message: 'Remove signature request has been added successfully!' }));
+          this.store.dispatch(new OperationSuccededAction({ message: 'Owner signature has been added successfully!' }));
           setTimeout(() => this.listOwners(), 2000);
         }
       });
+  }
+
+  listSigners(address = this.address) {
+    this.signers = [];
+    this.isLoading = true;
+    this.canworkJobEthService.getSigners(MultiSigOperations.addOwner, address)
+      .then(_signers => this.signers = _signers)
+      .then(() => this.isLoading = false);
+
+    return false;
   }
 
 }

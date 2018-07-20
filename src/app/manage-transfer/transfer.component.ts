@@ -8,20 +8,20 @@ import { OperationSuccededAction } from 'src/app/_state/actions/common.action';
   templateUrl: './transfer.component.html',
   styleUrls: ['./transfer.component.css']
 })
-export class TransferComponent implements OnInit {
+export class ManageTransferComponent implements OnInit {
 
   isLoading = false;
   address: string;
-  owners = [];
+  signers = [];
 
   constructor(private canworkJobEthService: CanWorkJobEthService, private store: Store<any>) { }
 
   ngOnInit() { }
 
-  listOwners(address = this.address) {
+  listSigners(address = this.address) {
     this.isLoading = true;
     this.canworkJobEthService.getSigners(MultiSigOperations.emergencyTransfer, address)
-      .then(_owners => this.owners = _owners)
+      .then(_signers => this.signers = _signers)
       .then(() => this.isLoading = false);
 
     return false;
@@ -31,7 +31,7 @@ export class TransferComponent implements OnInit {
     this.canworkJobEthService.emergencyTransfer(this.address)
       .then((tx: any) => {
         if (tx && tx.status) {
-          setTimeout(() => this.listOwners(this.address), 2000);
+          setTimeout(() => this.listSigners(this.address), 2000);
           this.address = '';
           this.store.dispatch(new OperationSuccededAction({ message: 'Transfer signature request has been added successfully!' }));
         }

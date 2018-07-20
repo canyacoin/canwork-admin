@@ -28,7 +28,7 @@ import { DashboardOwnerComponent } from './dashboard-owner/dashboard-owner.compo
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
 import { ManageOwnersComponent } from './manage-owners/manage-owners.component';
-import { TransferComponent } from './transfer/transfer.component';
+import { ManageTransferComponent } from './manage-transfer/transfer.component';
 
 
 @NgModule({
@@ -60,7 +60,7 @@ import { TransferComponent } from './transfer/transfer.component';
     DashboardAdminComponent,
     ManageAdminsComponent,
     ManageOwnersComponent,
-    TransferComponent
+    ManageTransferComponent
   ],
   providers: [
     UserService,
