@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OperationSuccededAction } from 'src/app/_state/actions/common.action';
-import { CanWorkJobEthService, MultiSigOperations } from 'src/app/services/eth/canwork-job-eth.service';
+import { CanWorkAdminEthService, MultiSigOperations } from 'src/app/services/eth/canwork-admin-eth.service';
 
 @Component({
   selector: 'app-manage-owners',
@@ -15,7 +15,7 @@ export class ManageOwnersComponent implements OnInit {
   owners = [];
   signers = [];
 
-  constructor(private canworkJobEthService: CanWorkJobEthService, private store: Store<any>) { }
+  constructor(private canworkAdminEthService: CanWorkAdminEthService, private store: Store<any>) { }
 
   ngOnInit() {
     this.listOwners();
@@ -23,7 +23,7 @@ export class ManageOwnersComponent implements OnInit {
 
   listOwners() {
     this.isLoading = true;
-    this.canworkJobEthService.getOwners()
+    this.canworkAdminEthService.getOwners()
       .then(_owners => this.owners = _owners)
       .then(() => this.isLoading = false);
 
@@ -32,7 +32,7 @@ export class ManageOwnersComponent implements OnInit {
 
   add() {
     this.signers = [];
-    this.canworkJobEthService.addOwner(this.address)
+    this.canworkAdminEthService.addOwner(this.address)
       .then((tx: any) => {
         if (tx && tx.status) {
           this.address = '';
@@ -43,7 +43,7 @@ export class ManageOwnersComponent implements OnInit {
   }
 
   remove(address) {
-    this.canworkJobEthService.removeOwner(address)
+    this.canworkAdminEthService.removeOwner(address)
       .then((tx: any) => {
         if (tx && tx.status) {
           this.store.dispatch(new OperationSuccededAction({ message: 'Owner signature has been added successfully!' }));
@@ -55,7 +55,7 @@ export class ManageOwnersComponent implements OnInit {
   listSigners(address = this.address) {
     this.signers = [];
     this.isLoadingSigners = true;
-    this.canworkJobEthService.getSigners(MultiSigOperations.addOwner, address)
+    this.canworkAdminEthService.getSigners(MultiSigOperations.addOwner, address)
       .then(_signers => this.signers = _signers)
       .finally(() => this.isLoadingSigners = false);
 

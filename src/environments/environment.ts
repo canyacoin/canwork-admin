@@ -18,7 +18,8 @@ export const environment = {
     + '4dVkyOXQiLCJ0aW1lc3RhbXAiOjE1MzExMTcyMDUyMDB9.gfoXrLf-8MvVsDp4V3RXhG4fg3PcSIWonkswbvb1epc',
   contracts: {
     useTestNet: true,
-    canworkJob: '0x5e6b0beb2bb566a2e7cdaf50c6706af56ae59e16',
+    canwork: '0x870ad43c01e7fd9879fd00f2839b655c29d6908e',
+    canworkAdmin: '0x75bfa6e92899118b46416e2a71608001c19debf1',
     canyaCoin: '0x3986826916e72cf07c278300b9525dc32a29f259'
   }
 };

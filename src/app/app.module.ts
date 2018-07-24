@@ -23,12 +23,13 @@ import { UserService } from 'src/app/services/user.service';
 import { DaoService } from 'src/app/services/dao.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { environment } from 'src/environments/environment';
-import { CanWorkJobEthService } from 'src/app/services/eth/canwork-job-eth.service';
+import { CanWorkAdminEthService } from 'src/app/services/eth/canwork-admin-eth.service';
 import { DashboardOwnerComponent } from './dashboard-owner/dashboard-owner.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
 import { ManageOwnersComponent } from './manage-owners/manage-owners.component';
 import { ManageTransferComponent } from './manage-transfer/transfer.component';
+import { CanWorkEthService } from 'src/app/services/eth/canwork-eth.service';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { ManageTransferComponent } from './manage-transfer/transfer.component';
     UserService,
     DaoService,
     AlertService,
-    CanWorkJobEthService
+    CanWorkAdminEthService,
+    CanWorkEthService
   ],
   bootstrap: [AppComponent]
 })

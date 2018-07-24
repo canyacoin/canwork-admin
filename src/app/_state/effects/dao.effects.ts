@@ -30,7 +30,9 @@ export class DaoEffects {
       return this.daoService.auth(action['payload'].daoAuthToken)
         .pipe(
         map(daoUser => new DAOAuthenticatedAction({ daoUser })),
-        catchError(err => of(new OperationFailedAction({ error: err.error, title: 'Failed SignUp' })))
+        catchError(err => {
+          return of(new OperationFailedAction({ error: err.error, title: 'DAO Authentication Failed' }));
+        })
         );
     })
   );

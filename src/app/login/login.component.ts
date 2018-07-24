@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DaoService } from 'src/app/services/dao.service';
 import { DAOAuthenticateAction } from 'src/app/_state/actions/dao.action';
-import { CanWorkJobEthService } from 'src/app/services/eth/canwork-job-eth.service';
+import { CanWorkAdminEthService } from 'src/app/services/eth/canwork-admin-eth.service';
 import { UserService } from 'src/app/services/user.service';
 import { NavigateAction, OperationFailedAction } from 'src/app/_state/actions/common.action';
 import { UserAuthenticatedAction } from 'src/app/_state/actions/user.action';
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<any>,
-    private canworkJobEthService: CanWorkJobEthService,
+    private canworkAdminEthService: CanWorkAdminEthService,
     private userService: UserService
   ) { }
 
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    Promise.all([this.canworkJobEthService.isAdmin(), this.canworkJobEthService.isOwner()])
+    Promise.all([this.canworkAdminEthService.isAdmin(), this.canworkAdminEthService.isOwner()])
       .then(result => {
 
         if (result[0]) {

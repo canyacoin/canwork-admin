@@ -1,2 +1,3 @@
 declare let require: any;
-export const canworkJob = require('../../build/contracts/CanWorkJob.json');
+export const canworkAdmin = require('../../build/contracts/CanWorkAdmin.json');
+export const canwork = require('../../build/contracts/CanWork.json');

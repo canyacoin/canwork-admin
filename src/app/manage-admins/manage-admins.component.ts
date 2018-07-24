@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OperationSuccededAction } from 'src/app/_state/actions/common.action';
-import { CanWorkJobEthService, MultiSigOperations } from 'src/app/services/eth/canwork-job-eth.service';
+import { CanWorkAdminEthService, MultiSigOperations } from 'src/app/services/eth/canwork-admin-eth.service';
 
 @Component({
   selector: 'app-manage-admins',
@@ -15,7 +15,7 @@ export class ManageAdminsComponent implements OnInit {
   admins = [];
   signers = [];
 
-  constructor(private canworkJobEthService: CanWorkJobEthService, private store: Store<any>) { }
+  constructor(private canworkAdminEthService: CanWorkAdminEthService, private store: Store<any>) { }
 
   ngOnInit() {
     this.listAdmins();
@@ -23,7 +23,7 @@ export class ManageAdminsComponent implements OnInit {
 
   listAdmins() {
     this.isLoading = true;
-    this.canworkJobEthService.getAdmins()
+    this.canworkAdminEthService.getAdmins()
       .then(_admins => this.admins = _admins)
       .then(() => this.isLoading = false);
 
@@ -31,7 +31,7 @@ export class ManageAdminsComponent implements OnInit {
   }
 
   add() {
-    this.canworkJobEthService.addAdmin(this.address)
+    this.canworkAdminEthService.addAdmin(this.address)
       .then((tx: any) => {
         if (tx && tx.status) {
           this.address = '';
@@ -42,7 +42,7 @@ export class ManageAdminsComponent implements OnInit {
   }
 
   remove(address) {
-    this.canworkJobEthService.removeAdmin(address)
+    this.canworkAdminEthService.removeAdmin(address)
       .then((tx: any) => {
         if (tx && tx.status) {
           this.store.dispatch(new OperationSuccededAction({ message: 'Admin has been removed successfully!' }));

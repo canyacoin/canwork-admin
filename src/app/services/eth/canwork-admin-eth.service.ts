@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EthService } from '@canyaio/canpay-lib';
 import { environment } from 'src/environments/environment';
-import { canworkJob } from 'src/app/contracts';
+import { canworkAdmin } from 'src/app/contracts';
 import { Store } from '@ngrx/store';
 import { OperationFailedAction } from 'src/app/_state/actions/common.action';
 
@@ -15,18 +15,18 @@ export enum MultiSigOperations {
 }
 
 @Injectable()
-export class CanWorkJobEthService extends EthService {
-  private canWorkJobContract: any;
-  private canWorkJobAddress = environment.contracts.canworkJob;
+export class CanWorkAdminEthService extends EthService {
+  private canWorkAdminContract: any;
+  private canWorkAdminAddress = environment.contracts.canworkAdmin;
 
   constructor(private store: Store<any>) {
     super({ useTestNet: environment.contracts.useTestNet });
     this.initContract();
   }
 
-  private initContract(abi = canworkJob.abi, address = environment.contracts.canworkJob) {
-    console.log(`CanWorkJobEthService: initContract(${address})`);
-    return this.canWorkJobContract = this.createContractInstance(abi, address);
+  private initContract(abi = canworkAdmin.abi, address = this.canWorkAdminAddress) {
+    console.log(`CanWorkAdminEthService: initContract(${address})`);
+    return this.canWorkAdminContract = this.createContractInstance(abi, address);
   }
 
   isOwner(userAddress: string = this.getOwnerAccount()): Promise<boolean> {
@@ -34,7 +34,7 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.hasRole(userAddress, ROLE_OWNER)
+    return this.canWorkAdminContract.methods.hasRole(userAddress, ROLE_OWNER)
       .call()
       .catch(this.handleError.bind(this));
   }
@@ -44,39 +44,44 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.hasRole(userAddress, ROLE_ADMIN)
+    return this.canWorkAdminContract.methods.hasRole(userAddress, ROLE_ADMIN)
       .call()
       .catch(this.handleError.bind(this));
   }
 
   getAdmins() {
-    return this.canWorkJobContract.methods.getAdminsCount()
+    return this.canWorkAdminContract.methods.getRoleMembersCount(this.web3js.utils.asciiToHex(ROLE_ADMIN))
       .call()
       .then(count => {
-        const owners = [];
+        const admins = [];
+
+        console.log('adminsCount: ', count);
 
         for (let i = 0; i < count; i++) {
-          owners.push(this.canWorkJobContract.methods.getAdmin(i).call());
+          admins.push(this.canWorkAdminContract.methods.getRoleMember(this.web3js.utils.asciiToHex(ROLE_ADMIN), i).call());
         }
 
-        return Promise.all(owners)
-          .then(ownerAddresses => ownerAddresses.filter(record => record[1] === true));
+        return Promise.all(admins)
+          .then(ownerAddresses => ownerAddresses.filter(record => { console.log(record); return record[1] === true; }));
       })
       .catch(this.handleError.bind(this));
   }
 
   getOwners() {
-    return this.canWorkJobContract.methods.getOwnersCount()
+    // return this.canWorkAdminContract.methods.getRoleMembersCount(this.web3js.utils.asciiToHex(ROLE_OWNER))
+    return this.initContract().methods.getRoleMembersCount(this.web3js.utils.asciiToHex(ROLE_OWNER))
       .call()
       .then(count => {
         const owners = [];
 
+        console.log('ownersCount: ', count);
+
         for (let i = 0; i < count; i++) {
-          owners.push(this.canWorkJobContract.methods.getOwner(i).call());
+          owners.push(this.canWorkAdminContract.methods.getRoleMember(this.web3js.utils.asciiToHex(ROLE_OWNER), i).call());
         }
 
         return Promise.all(owners)
-          .then(ownerAddresses => ownerAddresses.filter(record => record[1] === true));
+          .then(ownerAddresses => ownerAddresses.filter(record => { console.log(record); return record[1] === true; }));
       })
       .catch(this.handleError.bind(this));
   }
@@ -86,7 +91,7 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.addAdmin(userAddress)
+    return this.canWorkAdminContract.methods.addAdmin(userAddress)
       .send({ from, ...this.getDefaultGasParams() })
       .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
       .catch(this.handleError.bind(this));
@@ -97,7 +102,7 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.removeAdmin(userAddress)
+    return this.canWorkAdminContract.methods.removeAdmin(userAddress)
       .send({ from, ...this.getDefaultGasParams() })
       .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
       .catch(this.handleError.bind(this));
@@ -108,7 +113,7 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.addOwner(userAddress)
+    return this.canWorkAdminContract.methods.addOwner(userAddress)
       .send({ from, ...this.getDefaultGasParams() })
       .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
       .catch(this.handleError.bind(this));
@@ -119,7 +124,7 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.removeOwner(userAddress)
+    return this.canWorkAdminContract.methods.removeOwner(userAddress)
       .send({ from, ...this.getDefaultGasParams() })
       .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
       .catch(this.handleError.bind(this));
@@ -130,7 +135,7 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.emergencyTransfer(toAddress)
+    return this.canWorkAdminContract.methods.emergencyTransfer(toAddress)
       .send({ from, ...this.getDefaultGasParams() })
       .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
       .catch(this.handleError.bind(this));
@@ -141,13 +146,13 @@ export class CanWorkJobEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkJobContract.methods.getOperationSignersCount(this.web3js.utils.asciiToHex(operation), address)
+    return this.canWorkAdminContract.methods.getOperationSignersCount(this.web3js.utils.asciiToHex(operation), address)
       .call()
       .then(count => {
         const signers = [];
 
         for (let i = 0; i < count; i++) {
-          signers.push(this.canWorkJobContract.methods.getOperationSigner(this.web3js.utils.asciiToHex(operation), address, i).call());
+          signers.push(this.canWorkAdminContract.methods.getOperationSigner(this.web3js.utils.asciiToHex(operation), address, i).call());
         }
 
         return Promise.all(signers)
