@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       this.canworkAdminEthService.isAdmin(),
       this.authService.isAdmin(this.canworkAdminEthService.getOwnerAccount())
     ])
-      .then(this.prepareUserRoles.bind(this))
+      .then(result => this.prepareUserRoles(result))
       .then(() => {
         if (this.roles.indexOf(UserRole.SysOwner) > -1) {
           return this.authoriseUser();
@@ -70,17 +70,17 @@ export class LoginComponent implements OnInit {
     if (result[0]) {
       this.roles.push(UserRole.SysOwner);
       this.roles.push(UserRole.WhiteListedOwner);
-      return this.roles;
+      return;
     }
 
     if (result[1]) {
       this.roles.push(UserRole.WhiteListedAdmin);
-      return this.roles;
+      return;
     }
 
     if (result[2]) {
       this.roles.push(UserRole.SysAdmin);
-      return this.roles;
+      return;
     }
   }
 

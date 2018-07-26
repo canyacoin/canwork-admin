@@ -31,7 +31,7 @@ export class AuthService {
       });
   }
 
-  generateAuthPinCode(ethAddress: string) {
+  generateAuthPinCode(ethAddress: string): Promise<any> {
     const endPoint = `${environment.backendURI}/generateAuthPinCode`;
     return this.http.post(endPoint, { ethAddress }).toPromise();
   }
