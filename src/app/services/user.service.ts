@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IDAOUser } from 'src/app/_state/reducers/dao.reducer';
-import { IUser } from 'src/app/_state/reducers/user.reducer';
+import { IUser, UserRole } from 'src/app/_state/reducers/user.reducer';
 
 const USER = 'user';
 
@@ -19,6 +19,10 @@ export class UserService {
 
   isAuthenticated(): boolean {
     return this.getUserFromCache().isAuthenticated;
+  }
+
+  isWhiteListedAdmin(): boolean {
+    return this.getUserFromCache().role.indexOf(UserRole.WhiteListedAdmin) > -1;
   }
 
   setVerificationStatus(isVerified) {

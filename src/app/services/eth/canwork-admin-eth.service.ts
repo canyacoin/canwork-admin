@@ -17,7 +17,7 @@ export enum MultiSigOperations {
 @Injectable()
 export class CanWorkAdminEthService extends EthService {
   private canWorkAdminContract: any;
-  private canWorkAdminAddress = environment.contracts.canworkAdmin;
+  private canWorkAdminAddress = environment.contracts[environment.contracts.network].canworkAdmin;
 
   constructor(private store: Store<any>) {
     super({ useTestNet: environment.contracts.useTestNet });
@@ -55,8 +55,6 @@ export class CanWorkAdminEthService extends EthService {
       .then(count => {
         const admins = [];
 
-        console.log('adminsCount: ', count);
-
         for (let i = 0; i < count; i++) {
           admins.push(this.canWorkAdminContract.methods.getRoleMember(this.web3js.utils.asciiToHex(ROLE_ADMIN), i).call());
         }
@@ -68,7 +66,6 @@ export class CanWorkAdminEthService extends EthService {
   }
 
   getOwners() {
-    // return this.canWorkAdminContract.methods.getRoleMembersCount(this.web3js.utils.asciiToHex(ROLE_OWNER))
     return this.initContract().methods.getRoleMembersCount(this.web3js.utils.asciiToHex(ROLE_OWNER))
       .call()
       .then(count => {
@@ -91,9 +88,14 @@ export class CanWorkAdminEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkAdminContract.methods.addAdmin(userAddress)
-      .send({ from, ...this.getDefaultGasParams() })
-      .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
+    const functionSignature = this.canWorkAdminContract.methods.addAdmin(userAddress).encodeABI();
+    return this.web3js.eth.estimateGas({ from, to: this.canWorkAdminAddress, data: functionSignature })
+      .then(gas => {
+        const txOptions = { from, ...this.getDefaultGasParams(), gas: gas + 10000 };
+        return this.canWorkAdminContract.methods.addAdmin(userAddress)
+          .send(txOptions)
+          .then(tx => this.getTransactionReceiptMined(tx.transactionHash));
+      })
       .catch(this.handleError.bind(this));
   }
 
@@ -102,9 +104,14 @@ export class CanWorkAdminEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkAdminContract.methods.removeAdmin(userAddress)
-      .send({ from, ...this.getDefaultGasParams() })
-      .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
+    const functionSignature = this.canWorkAdminContract.methods.removeAdmin(userAddress).encodeABI();
+    return this.web3js.eth.estimateGas({ from, to: this.canWorkAdminAddress, data: functionSignature })
+      .then(gas => {
+        const txOptions = { from, ...this.getDefaultGasParams(), gas: gas + 10000 };
+        return this.canWorkAdminContract.methods.removeAdmin(userAddress)
+          .send(txOptions)
+          .then(tx => this.getTransactionReceiptMined(tx.transactionHash));
+      })
       .catch(this.handleError.bind(this));
   }
 
@@ -113,9 +120,14 @@ export class CanWorkAdminEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkAdminContract.methods.addOwner(userAddress)
-      .send({ from, ...this.getDefaultGasParams() })
-      .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
+    const functionSignature = this.canWorkAdminContract.methods.addOwner(userAddress).encodeABI();
+    return this.web3js.eth.estimateGas({ from, to: this.canWorkAdminAddress, data: functionSignature })
+      .then(gas => {
+        const txOptions = { from, ...this.getDefaultGasParams(), gas: gas + 10000 };
+        return this.canWorkAdminContract.methods.addOwner(userAddress)
+          .send(txOptions)
+          .then(tx => this.getTransactionReceiptMined(tx.transactionHash));
+      })
       .catch(this.handleError.bind(this));
   }
 
@@ -124,9 +136,14 @@ export class CanWorkAdminEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkAdminContract.methods.removeOwner(userAddress)
-      .send({ from, ...this.getDefaultGasParams() })
-      .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
+    const functionSignature = this.canWorkAdminContract.methods.removeOwner(userAddress).encodeABI();
+    return this.web3js.eth.estimateGas({ from, to: this.canWorkAdminAddress, data: functionSignature })
+      .then(gas => {
+        const txOptions = { from, ...this.getDefaultGasParams(), gas: gas + 10000 };
+        return this.canWorkAdminContract.methods.removeOwner(userAddress)
+          .send(txOptions)
+          .then(tx => this.getTransactionReceiptMined(tx.transactionHash));
+      })
       .catch(this.handleError.bind(this));
   }
 
@@ -135,9 +152,14 @@ export class CanWorkAdminEthService extends EthService {
       return this.handleError({ message: 'Invalid eth address!' });
     }
 
-    return this.canWorkAdminContract.methods.emergencyTransfer(toAddress)
-      .send({ from, ...this.getDefaultGasParams() })
-      .then(tx => this.getTransactionReceiptMined(tx.transactionHash))
+    const functionSignature = this.canWorkAdminContract.methods.emergencyTransfer(toAddress).encodeABI();
+    return this.web3js.eth.estimateGas({ from, to: this.canWorkAdminAddress, data: functionSignature })
+      .then(gas => {
+        const txOptions = { from, ...this.getDefaultGasParams(), gas: gas + 10000 };
+        return this.canWorkAdminContract.methods.emergencyTransfer(toAddress)
+          .send(txOptions)
+          .then(tx => this.getTransactionReceiptMined(tx.transactionHash));
+      })
       .catch(this.handleError.bind(this));
   }
 

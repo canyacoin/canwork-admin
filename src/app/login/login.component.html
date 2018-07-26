@@ -5,11 +5,23 @@
   <fieldset>
     <legend>Signin</legend>
 
-    <a class="btn btn-primary btn-lg text-white" (click)="login()" *ngIf="!isDaoLogin">Sign-in with MetaMask</a>
+    <!-- ADMIN Login -->
+    <button class="btn btn-primary btn-lg text-white" (click)="login()" [disabled]="isLoading" *ngIf="!isDaoLogin && !status"><i *ngIf="isLoading" class="fa fa-circle-o-notch fa-spin"></i> Sign-in with MetaMask</button>
 
+    <!-- DAO LOGIN -->
     <button class="btn btn-primary btn-lg text-white" disabled *ngIf="isDaoLogin">
       <i class="fa fa-circle-o-notch fa-spin"></i> Authenticating DAO User ...
     </button>
+
+    <!-- PIN Verification -->
+    <div *ngIf="status==='WaitingAuthPinVerification'">
+      <p>Please, check your email for the verification code:</p>
+      <input [(ngModel)]="pin" class="input-verification-pin">
+      <div>
+        <button class="btn btn-danger btn-lg" (click)="cancelPinVerification()" [disabled]="isLoading">Cancel</button>
+        <button class="btn btn-primary btn-lg" (click)="verifyAuthorisationPin()" [disabled]="isLoading"><i *ngIf="isLoading" class="fa fa-circle-o-notch fa-spin"></i> Verify PIN</button>
+      </div>
+    </div>
 
     <hr>
 

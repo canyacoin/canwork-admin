@@ -48,7 +48,7 @@ import { CanWorkEthService } from 'src/app/services/eth/canwork-eth.service';
     CanpayModule.forRoot({
       contracts: {
         useTestNet: environment.contracts.useTestNet,
-        canyaCoinAddress: environment.contracts.canyaCoin
+        canyaCoinAddress: environment.contracts[environment.contracts.network].canyaCoin
       }
     })
   ],

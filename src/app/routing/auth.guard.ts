@@ -16,13 +16,13 @@ export class AuthGuard implements CanActivate {
 
     const user = this.userService.getUser();
 
-    if (user.isAuthenticated && user.role === UserRole.SysAdmin) {
-      this.router.navigate(['/dashboard-admin']);
+    if (user.isAuthenticated && user.role.indexOf(UserRole.SysOwner) > -1 ) {
+      this.router.navigate(['/dashboard-owner']);
       return true;
     }
 
-    if (user.isAuthenticated && user.role === UserRole.SysOwner) {
-      this.router.navigate(['/dashboard-owner']);
+    if (user.isAuthenticated && user.role.indexOf(UserRole.SysAdmin) > -1) {
+      this.router.navigate(['/dashboard-admin']);
       return true;
     }
 

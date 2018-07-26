@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
+import { IUser } from 'src/app/_state/reducers/user.reducer';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-admin.component.css']
 })
 export class DashboardAdminComponent implements OnInit {
+  isWhiteListedAdmin: boolean;
 
-  constructor() { }
+  constructor(private userService: UserService) {
+    this.isWhiteListedAdmin = userService.isWhiteListedAdmin();
+  }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  exec() {
+    alert('To be implemented...');
   }
 
 }

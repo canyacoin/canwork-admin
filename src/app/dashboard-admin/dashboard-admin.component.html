@@ -2,7 +2,8 @@
     <fieldset>
       <legend>Admin Dashboard</legend>
   
-      <button class="btn btn-primary btn-xl" title="Solve disputes" disabled>Disputes</button>
+      <button class="btn btn-primary btn-xl" title="Approve Providers" (click)="exec()">Approve Providers</button>
+      <button class="btn btn-primary btn-xl" title="Solve disputes" (click)="exec()" [disabled]="!isWhiteListedAdmin">Resolve Disputes</button>
   
       <hr>
   

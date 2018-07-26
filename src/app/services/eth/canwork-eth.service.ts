@@ -8,7 +8,7 @@ import { OperationFailedAction } from 'src/app/_state/actions/common.action';
 @Injectable()
 export class CanWorkEthService extends EthService {
   private canWorkContract: any;
-  private canWorkAddress = environment.contracts.canwork;
+  private canWorkAddress = environment.contracts[environment.contracts.network].canwork;
 
   constructor(private store: Store<any>) {
     super({ useTestNet: environment.contracts.useTestNet });

@@ -1,5 +1,15 @@
 .form-container {
-  width: 22em;
+  width: 450px;
   margin: 5em auto;
   text-align: center;
+}
+
+.btn {
+  margin: 5px;
+}
+
+.input-verification-pin {
+  font-size: 28px;
+  text-align: center;
+  color: #47525d;
 }

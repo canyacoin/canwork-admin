@@ -4,6 +4,8 @@ import * as UserActions from '../actions/user.action';
 import * as DaoActions from '../actions/dao.action';
 
 export enum UserRole {
+  WhiteListedAdmin = 'whiteListedAdmin',
+  WhiteListedOwner = 'whiteListedOwner',
   SysAdmin = 'sysAdmin',
   SysOwner = 'sysOwner',
   DaoUser = 'daoUser',

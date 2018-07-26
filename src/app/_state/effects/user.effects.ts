@@ -34,20 +34,7 @@ export class UserEffects {
     ofType(USER_AUTHENTICATED),
     map((action) => {
       this.userService.set(action['payload']);
-
-      if (action['payload'].role === UserRole.SysAdmin) {
-        return new NavigateAction({ url: ['/dashboard-admin'] });
-      }
-
-      if (action['payload'].role === UserRole.SysOwner) {
-        return new NavigateAction({ url: ['/dashboard-owner'] });
-      }
-
-      if (action['payload'].role === UserRole.DaoUser) {
-        return new NavigateAction({ url: ['/dashboard'] });
-      }
-
-      return new OperationFailedAction({ error: { message: 'Invalid user role!' } });
+      return new NavigateAction({ url: ['/home'] });
     })
   );
 }
