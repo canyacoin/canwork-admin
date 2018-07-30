@@ -1,0 +1,38 @@
+<div class="form-container">
+  <a [routerLink]="['/home']" href="#" class="back-link">
+    <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+    Dashboard
+  </a>
+
+  <fieldset>
+    <legend>Approve Providers</legend>
+
+    <div class="text-center" *ngIf="isLoading">
+      <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
+    </div>
+
+    <div class="text-center" *ngIf="approvalList.length === 0 && !isLoading">There are no providers to approve</div>
+
+
+
+    <div>
+      <div *ngFor="let provider of approvalList" class="admin-cell">
+        <div class="clearfix">
+          <p class="pull-left">Name: {{ provider.name }}</p>
+          <p class="pull-right">Email: {{ provider.email }}</p>
+          <p class="pull-left">Portfolio: {{ provider.portfolio}}</p>
+        </div>
+
+        <div class="text-left">
+          <button class="btn btn-primary btn-md" (click)="approve(provider.address)">
+            <i class="fa fa-check fa-fw"></i> Approve</button>
+          &nbsp;
+          <button class="btn btn-danger btn-md" (click)="reject(provider.address)">
+            <i class="fa fa-ban"></i> Reject</button>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+  </fieldset>
+</div>

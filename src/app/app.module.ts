@@ -30,6 +30,7 @@ import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
 import { ManageOwnersComponent } from './manage-owners/manage-owners.component';
 import { ManageTransferComponent } from './manage-transfer/transfer.component';
 import { CanWorkEthService } from 'src/app/services/eth/canwork-eth.service';
+import { ManageProvidersComponent } from './manage-providers/manage-providers.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { CanWorkEthService } from 'src/app/services/eth/canwork-eth.service';
     DashboardAdminComponent,
     ManageAdminsComponent,
     ManageOwnersComponent,
-    ManageTransferComponent
+    ManageTransferComponent,
+    ManageProvidersComponent
   ],
   providers: [
     UserService,
