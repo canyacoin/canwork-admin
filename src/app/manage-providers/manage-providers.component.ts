@@ -42,18 +42,28 @@ export class ManageProvidersComponent implements OnInit {
     const provider = this.approvalList[index]
     provider.whitelisted = true
     provider.badge = 'Ambassador'
-    await this.usersCollection.doc(uid).update(provider)
-    this.getApprovalList()
 
-    // API call to send a email...
+    try {
+      await this.usersCollection.doc(uid).update(provider)
+      this.getApprovalList()
+    } catch (error) {
+      console.log(error)
+    }
+
+    // API call to send an email...
   }
 
   async reject(uid: string, index: number) {
     const provider = this.approvalList[index]
     provider.whitelistRejected = true
-    await this.usersCollection.doc(uid).update(provider)
-    this.getApprovalList()
 
-    // API call to send a email...
+    try {
+      await this.usersCollection.doc(uid).update(provider)
+      this.getApprovalList()
+    } catch (error) {
+      console.log(error)
+    }
+
+    // API call to send an email...
   }
 }
