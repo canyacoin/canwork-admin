@@ -6,33 +6,44 @@
 
   <fieldset>
     <legend>Approve Providers</legend>
+  </fieldset>
 
-    <div class="text-center" *ngIf="isLoading">
-      <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
-    </div>
+  <div class="text-center" *ngIf="isLoading">
+    <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
+  </div>
 
-    <div class="text-center" *ngIf="approvalList.length === 0 && !isLoading">There are no providers to approve</div>
+  <div class="text-center" *ngIf="approvalList.length === 0 && !isLoading">There are no providers to approve</div>
 
-
-
-    <div>
-      <div *ngFor="let provider of approvalList" class="admin-cell">
-        <div class="clearfix">
-          <p class="pull-left">Name: {{ provider.name }}</p>
-          <p class="pull-right">Email: {{ provider.email }}</p>
-          <p class="pull-left">Portfolio: {{ provider.portfolio}}</p>
+  <article class="card provider mb-30" *ngFor="let provider of approvalList; let i = index">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-sm-7">
+          <h5>{{ provider.name }}</h5>
+          <small>{{ provider.title }} - {{ provider.category }}</small>
         </div>
-
-        <div class="text-left">
-          <button class="btn btn-primary btn-md" (click)="approve(provider.address)">
-            <i class="fa fa-check fa-fw"></i> Approve</button>
-          &nbsp;
-          <button class="btn btn-danger btn-md" (click)="reject(provider.address)">
-            <i class="fa fa-ban"></i> Reject</button>
+        <div class="col-sm-5 text-right">
+          <nav>
+            <button class="btn btn-primary btn-md" (click)="approve(provider.address, i)">
+              <i class="fa fa-check fa-fw"></i> Approve</button>
+            <button class="btn btn-danger btn-md ml-3" (click)="reject(provider.address, i)">
+              <i class="fa fa-ban"></i> Reject</button>
+          </nav>
         </div>
-        <hr>
       </div>
     </div>
-
-  </fieldset>
+    <div class="card-body">
+      <strong>Email</strong>
+      <p>{{ provider.email }}</p>
+      <strong>Work email</strong>
+      <p>{{ provider.work }}</p>
+      <strong>Ethereum address</strong>
+      <p><a href="https://etherscan.io/address/{{ provider.ethAddress }}" target="_blank">{{ provider.ethAddress }}</a></p>
+      <strong>Timezone</strong>
+      <p>{{ provider.timezone }}</p>
+      <strong>Bio</strong>
+      <p>{{ provider.bio }}</p>
+      <strong>Description</strong>
+      <p>{{ provider.description }}</p>
+    </div>
+  </article>
 </div>

@@ -14,45 +14,46 @@ export class ManageProvidersComponent implements OnInit {
   isLoading: boolean;
 
   constructor(private afs: AngularFirestore) {
-    this.usersCollection = this.afs.collection<any>('users');
-    this.portfolioCollection = this.afs.collection<any>('portfolio');
+    this.usersCollection = this.afs.collection<any>('users')
+    this.portfolioCollection = this.afs.collection<any>('portfolio')
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    this.approvalList = [];
-    this.getApprovalList();
+    this.isLoading = true
+    this.getApprovalList()
   }
 
-  getApprovalList() {
-    this.usersCollection.ref
-      .where('type', '==', 'Provider').get().then(data => {
-        data.forEach(record => {
-          const r = record.data();
-          if (r['state'] !== 'Done') {
-            this.portfolioCollection.doc(r.address).collection('work').ref.get().then(portfolio => {
-              r.portfolio = portfolio.forEach(work => {
-                // Add the portfolio here!!!!
-              });
-              this.approvalList.push(r);
-            })
-          }
+  async getApprovalList() {
+    this.approvalList = []
 
-          //}
-        });
-      });
-    console.log('+ this.approvalList', this.approvalList);
-    this.isLoading = false;
+    let data = await this.usersCollection.ref
+      .where('type', '==', 'Provider')
+      .where('whitelistSubmitted', '==', true)
+      .where('whitelisted', '==', false)
+      .where('whitelistRejected', '==', false).get()
+    data.forEach(record => {
+      const provider = record.data()
+      this.approvalList.push(provider)
+    })
+    this.isLoading = false
   }
 
-  approve(uid: string) {
-    // Update state = Done
+  async approve(uid: string, index: number) {
+    const provider = this.approvalList[index]
+    provider.whitelisted = true
+    provider.badge = 'Ambassador'
+    await this.usersCollection.doc(uid).update(provider)
+    this.getApprovalList()
 
     // API call to send a email...
   }
 
-  reject(uid: string) {
+  async reject(uid: string, index: number) {
+    const provider = this.approvalList[index]
+    provider.whitelistRejected = true
+    await this.usersCollection.doc(uid).update(provider)
+    this.getApprovalList()
 
+    // API call to send a email...
   }
-
 }
