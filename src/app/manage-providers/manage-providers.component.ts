@@ -28,7 +28,7 @@ export class ManageProvidersComponent implements OnInit {
 
     let data = await this.usersCollection.ref
       .where('type', '==', 'Provider')
-      .where('whitelistSubmitted', '==', true)
+      // .where('whitelistSubmitted', '==', true)
       .where('whitelisted', '==', false)
       .where('whitelistRejected', '==', false).get()
     data.forEach(record => {
