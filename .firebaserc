@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "staging-admin-can-work"
+    "default": "staging-admin-can-work",
+    "prod": "admin-canwork-io"
   }
 }
