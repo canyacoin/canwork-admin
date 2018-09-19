@@ -8,8 +8,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
-    "build:staging": "ng build --prod --env=staging",
-    "build:prod": "ng build --prod",
+    "build:staging": "ng build --configuration=staging",
+    "build:prod": "ng build --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

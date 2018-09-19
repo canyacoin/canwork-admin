@@ -11,10 +11,10 @@
       <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
     </div>
 
-    <div class="text-center" *ngIf="$admins.length === 0 && !isLoading">Looks like nothing is there!</div>
+    <div class="text-center" *ngIf="admins.length === 0 && !isLoading">Looks like nothing is there!</div>
 
     <div>
-      <div *ngFor="let admin of $admins | async"  class="admin-cell">
+      <div *ngFor="let admin of $admins | async" class="admin-cell">
         <div class="clearfix">
           <p class="pull-left">Name: {{ admin.name }}</p>
           <p class="pull-right">Email: {{ admin.email }}</p>
@@ -23,8 +23,12 @@
         <p>EthAddress: {{ admin.ethAddress }}</p>
 
         <div class="text-right">
-          <button class="btn btn-danger btn-lg" (click)="remove(admin.ethAddress)" *ngIf="isWhiteListed(admin.ethAddress)" [disabled]="pendingQ[admin.ethAddress]"><i class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="pendingQ[admin.ethAddress]"></i> Remove</button>
-          <button class="btn btn-primary btn-lg" (click)="add(admin.ethAddress)" *ngIf="!isWhiteListed(admin.ethAddress)" [disabled]="pendingQ[admin.ethAddress]"><i class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="pendingQ[admin.ethAddress]"></i> Add</button>
+          <button class="btn btn-danger btn-lg" (click)="remove(admin.ethAddress)" *ngIf="isWhiteListed(admin.ethAddress)"
+            [disabled]="pendingQ[admin.ethAddress]"><i class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="pendingQ[admin.ethAddress]"></i>
+            Remove</button>
+          <button class="btn btn-primary btn-lg" (click)="add(admin.ethAddress)" *ngIf="!isWhiteListed(admin.ethAddress)"
+            [disabled]="pendingQ[admin.ethAddress]"><i class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="pendingQ[admin.ethAddress]"></i>
+            Add</button>
         </div>
       </div>
     </div>
