@@ -41,7 +41,6 @@ export class ManageProvidersComponent implements OnInit {
   async approve(uid: string, index: number) {
     const provider = this.approvalList[index]
     provider.whitelisted = true
-    provider.badge = 'Ambassador'
 
     try {
       await this.usersCollection.doc(uid).update(provider)
