@@ -1,0 +1,52 @@
+image: registry.gitlab.com/canya-com/node-build-container:1.2
+
+variables:
+  APP_PATH: /builds/$CI_PROJECT_PATH
+
+before_script:
+  - cd $APP_PATH
+
+stages:
+  - build
+  - deploy
+
+build:dist:staging:
+  stage: build
+  environment: staging
+  only:
+    - master
+  artifacts:
+    name: "canwork-admin-web dist"
+    paths:
+      - $APP_PATH/dist
+  script:
+    - npm install
+    - echo -n "+ current working path:" && pwd
+    - echo $ENVIRONMENT_STAGING >> $APP_PATH/src/environments/environment.staging.ts
+    - npm run build:staging
+
+build:dist:production:
+  stage: build
+  environment: production
+  only:
+    - master
+  artifacts:
+    name: "canwork-admin-web dist"
+    paths:
+      - $APP_PATH/dist
+  script:
+    - npm install
+    - echo -n "+ current working path:" && pwd
+    - echo $ENVIRONMENT_PROD >> $APP_PATH/src/environments/environment.prod.ts
+    - npm run build:prod
+
+deploy:production:
+  stage: deploy
+  environment: production
+  only:
+    - master
+  when: manual
+  dependencies:
+    - build:dist:production
+  script:
+    - firebase deploy --only hosting --token "$FIREBASE_CI_AUTH_TOKEN" -P admin-canwork-io
