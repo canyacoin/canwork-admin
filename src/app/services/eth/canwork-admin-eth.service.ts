@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import { EthService } from '@canyaio/canpay-lib';
-import { environment } from 'src/environments/environment';
-import { canworkAdmin } from 'src/app/contracts';
 import { Store } from '@ngrx/store';
+
 import { OperationFailedAction } from 'src/app/_state/actions/common.action';
+import { canworkAdmin } from 'src/app/contracts';
+import { environment } from 'src/environments/environment';
 
 const ROLE_OWNER = 'owner';
 const ROLE_ADMIN = 'admin';
@@ -19,8 +21,8 @@ export class CanWorkAdminEthService extends EthService {
   private canWorkAdminContract: any;
   private canWorkAdminAddress = environment.contracts[environment.contracts.network].canworkAdmin;
 
-  constructor(private store: Store<any>) {
-    super({ useTestNet: environment.contracts.useTestNet });
+  constructor(private store: Store<any>, http: Http) {
+    super({ useTestNet: environment.contracts.useTestNet }, http);
     this.initContract();
   }
 

@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import { EthService } from '@canyaio/canpay-lib';
-import { environment } from 'src/environments/environment';
-import { canwork } from 'src/app/contracts';
 import { Store } from '@ngrx/store';
+
 import { OperationFailedAction } from 'src/app/_state/actions/common.action';
+import { canwork } from 'src/app/contracts';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class CanWorkEthService extends EthService {
   private canWorkContract: any;
   private canWorkAddress = environment.contracts[environment.contracts.network].canwork;
 
-  constructor(private store: Store<any>) {
-    super({ useTestNet: environment.contracts.useTestNet });
+  constructor(private store: Store<any>, http: Http) {
+    super({ useTestNet: environment.contracts.useTestNet }, http);
     this.initContract();
   }
 
