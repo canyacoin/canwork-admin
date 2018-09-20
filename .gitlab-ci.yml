@@ -21,6 +21,7 @@ build:dist:staging:
       - $APP_PATH/dist
   script:
     - npm install
+    - npm run postinstall
     - echo -n "+ current working path:" && pwd
     - echo $ENVIRONMENT_STAGING >> $APP_PATH/src/environments/environment.staging.ts
     - npm run build:staging
@@ -36,6 +37,7 @@ build:dist:production:
       - $APP_PATH/dist
   script:
     - npm install
+    - npm run postinstall
     - echo -n "+ current working path:" && pwd
     - echo $ENVIRONMENT_PROD >> $APP_PATH/src/environments/environment.prod.ts
     - npm run build:prod
