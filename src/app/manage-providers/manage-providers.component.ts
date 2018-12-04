@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-manage-providers',
   templateUrl: './manage-providers.component.html',
-  styleUrls: ['./manage-providers.component.css']
+  styleUrls: ['./manage-providers.component.scss']
 })
 export class ManageProvidersComponent implements OnInit {
 
@@ -12,57 +14,86 @@ export class ManageProvidersComponent implements OnInit {
   portfolioCollection: AngularFirestoreCollection<any>;
   approvalList: any[];
   isLoading: boolean;
+  body = document.getElementById('app-body');
 
-  constructor(private afs: AngularFirestore) {
-    this.usersCollection = this.afs.collection<any>('users')
-    this.portfolioCollection = this.afs.collection<any>('portfolio')
+  @Input() rejection = {
+    displayModal: false,
+    reason: '',
+    uid: '',
+    index: 0,
+  };
+
+  constructor(
+    private afs: AngularFirestore,
+    private http: HttpClient) {
+    this.usersCollection = this.afs.collection<any>('users');
+    this.portfolioCollection = this.afs.collection<any>('portfolio');
   }
 
   ngOnInit() {
-    this.isLoading = true
-    this.getApprovalList()
+    this.isLoading = true;
+    this.getApprovalList();
   }
 
   async getApprovalList() {
-    this.approvalList = []
+    this.approvalList = [];
 
-    let data = await this.usersCollection.ref
+    const data = await this.usersCollection.ref
       .where('type', '==', 'Provider')
-      // .where('whitelistSubmitted', '==', true)
       .where('whitelisted', '==', false)
-      .where('whitelistRejected', '==', false).get()
+      .where('whitelistRejected', '==', false).get();
     data.forEach(record => {
-      const provider = record.data()
-      this.approvalList.push(provider)
-    })
-    this.isLoading = false
+      const provider = record.data();
+      this.approvalList.push(provider);
+    });
+    this.isLoading = false;
   }
 
   async approve(uid: string, index: number) {
-    const provider = this.approvalList[index]
-    provider.whitelisted = true
+    const provider = this.approvalList[index];
+    provider.whitelisted = true;
 
     try {
-      await this.usersCollection.doc(uid).update(provider)
-      this.getApprovalList()
+      await this.usersCollection.doc(uid).update(provider);
+      this.getApprovalList();
     } catch (error) {
-      console.log(error)
+      console.error(error);
     }
-
-    // API call to send an email...
   }
 
-  async reject(uid: string, index: number) {
-    const provider = this.approvalList[index]
-    provider.whitelistRejected = true
+  onReject(uid: string, index: number) {
+    this.rejection.displayModal = true;
+    this.rejection.uid = uid;
+    this.rejection.index = index;
+    this.body.classList.add('hide-overflow-y');
+  }
+
+  closeModal() {
+    this.rejection.displayModal = false;
+    this.body.classList.remove('hide-overflow-y');
+  }
+
+  async reject() {
+    const provider = this.approvalList[this.rejection.index];
+    provider.whitelistRejected = true;
 
     try {
-      await this.usersCollection.doc(uid).update(provider)
-      this.getApprovalList()
+      await this.usersCollection.doc(this.rejection.uid).update(provider);
+      this.getApprovalList();
     } catch (error) {
-      console.log(error)
+      console.error(error);
     }
 
-    // API call to send an email...
+    const endPoint = `${environment.backendURI}/canyaSupportNotification`;
+    return this.http.post(endPoint, {
+      emailAddress: provider.email,
+      message: `${this.rejection.reason}`,
+      subject: `You CanWork application was rejected`,
+    }).toPromise()
+      .then(res => {
+        console.log(res);
+        this.rejection.displayModal = false;
+      })
+      .catch(error => console.error(error));
   }
 }
