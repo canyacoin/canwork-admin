@@ -1,3 +1,16 @@
+<section class="modal-overlay" *ngIf="rejection.displayModal">
+  <div class="container">
+    <div class="body">
+      <label for="">Type a message:</label>
+      <textarea name="reason" class="form-control" [(ngModel)]="rejection.reason"></textarea>
+      <nav class="mt-3">
+        <button class="btn btn-danger mr-3" (click)="reject()">Reject</button>
+        <button class="btn btn-light" (click)="closeModal()">Cancel</button>
+      </nav>
+    </div>
+  </div>
+</section>
+
 <div class="form-container">
   <a [routerLink]="['/home']" href="#" class="back-link">
     <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
@@ -25,7 +38,7 @@
           <nav>
             <button class="btn btn-primary btn-md" (click)="approve(provider.address, i)">
               <i class="fa fa-check fa-fw"></i> Approve</button>
-            <button class="btn btn-danger btn-md ml-3" (click)="reject(provider.address, i)">
+            <button class="btn btn-danger btn-md ml-3" (click)="onReject(provider.address, i)">
               <i class="fa fa-ban"></i> Reject</button>
           </nav>
         </div>
