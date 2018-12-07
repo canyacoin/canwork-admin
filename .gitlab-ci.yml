@@ -23,6 +23,7 @@ build:dist:staging:
     - npm install
     - npm run postinstall
     - echo -n "+ current working path:" && pwd
+    - echo "ANGULAR ENV STUB" >> $APP_PATH/src/environments/environment.ts
     - echo $ENVIRONMENT_STAGING > $APP_PATH/src/environments/environment.staging.ts
     - npm run build:staging
 
@@ -39,6 +40,7 @@ build:dist:production:
     - npm install
     - npm run postinstall
     - echo -n "+ current working path:" && pwd
+    - echo "ANGULAR ENV STUB" >> $APP_PATH/src/environments/environment.ts
     - echo $ENVIRONMENT_PROD > $APP_PATH/src/environments/environment.prod.ts
     - npm run build:prod
 
